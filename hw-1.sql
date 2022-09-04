@@ -1,9 +1,9 @@
  /*1. Получите описание таблицы REGIONS, используя её полное имя.*/
-SELECT * FROM hr.regions;
+DESC hr.regions;
  /*2. Получите описание таблицы COUNTRIES, используя её полное имя.*/
-SELECT * FROM hr.countries;
+DESC hr.countries;
 /*3. Получите описание таблицы JOBS, используя её короткое имя.*/
-SELECT * FROM hr.jobs;
+DESC hr.jobs;
 /*4. Получите описание таблицы LOCATIONS, используя её короткое имя.*/
-SELECT * FROM hr.locations;
+DESC hr.locations;
  
