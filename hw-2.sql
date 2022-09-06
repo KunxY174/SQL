@@ -132,13 +132,95 @@ from countries;
 
 /*21. Выведите имя сотрудника, его з/п, а также уровень того, насколько у 
 сотрудника хорошие условия : 
-? BAD: з/п меньше 10000 и отсутствие комиссионных;
-? NORMAL: з/п между 10000 и 15000 или, если присутствуют 
+- BAD: з/п меньше 10000 и отсутствие комиссионных;
+- NORMAL: з/п между 10000 и 15000 или, если присутствуют 
 комиссионные;
-? GOOD: з/п больше или равна 15000.*/
+- GOOD: з/п больше или равна 15000.*/
 select first_name, salary, case
 when salary<10000 and commission_pct is null then 'BAD'
 when salary between 10000 and 15000 or commission_pct is not null then 'NORMAL'
 when salary >=15000 then 'GOOD'
 end
 from employees;
+
+/*22.  Получить репорт по department_id с минимальной и максимальной 
+зарплатой, с самой ранней и самой поздней датой прихода на работу и 
+с количеством сотрудников. Сортировать по количеству сотрудников 
+(по убыванию).*/
+select min(salary), max(salary), min(hire_date), max(hire_date), count(employee_id)
+from employees
+group by department_id;
+
+/*23.  Выведите информацию о первой букве имени сотрудника и количество 
+имён, которые начинаются с этой буквы. Выводить строки для букв, где 
+количество имён, начинающихся с неё больше 1. Сортировать по 
+количеству.*/
+select substr (first_name, 1, 1), count(*)
+from employees
+group by substr (first_name, 1, 1)
+having count(*)>1
+order by 2 desc;
+
+/*24.  Выведите id департамента, з/п и количество сотрудников, которые 
+работают в одном и том же департаменте и получают одинаковую 
+зарплату.*/
+select department_id, salary, count(employee_id)
+from employees
+group by department_id, salary;
+
+/*25.   Выведите день недели и количество сотрудников, которых приняли на 
+работу в этот день.*/
+select to_char (hire_date, 'day'), count(*)
+from employees
+group by to_char (hire_date, 'day');
+
+/*26.  Выведите id департаментов, в которых работает больше 30 
+сотрудников и сумма их з/п-т больше 300000.*/
+select department_id
+from employees
+group by department_id
+having count(*)>30
+and sum(salary)>300000;
+
+/*27.  Из таблицы countries вывести все region_id, для которых сумма всех 
+букв их стран больше 50ти.*/
+select region_id
+from countries
+group by region_id
+having sum(length(country_name))>50;
+
+/*28.  Выведите информацию о job_id и округленную среднюю зарплату 
+работников для каждого job_id.*/
+select job_id, round(avg(salary))
+from employees
+group by job_id;
+
+/*29.  Получить список id департаментов, в которых работают сотрудники
+нескольких (>1) job_id.*/
+select department_id
+from employees
+group by department_id
+having count(distinct job_id)>1;
+
+/*30.  Выведите информацию о department, job_id, максимальную и 
+минимальную з/п для всех сочетаний department_id - job_id, где 
+средняя з/п больше 10000.*/
+select department_id, job_id, max(salary), min(salary)
+from employees
+group by department_id, job_id
+having avg(salary)>10000;
+
+/*31.  .Получить список manager_id, у которых средняя зарплата всех его 
+подчиненных, не имеющих комиссионные, находится в промежутке от 
+6000 до 9000*/
+select manager_id
+from employees
+where commission_pct is null
+group by manager_id
+having avg(salary) between 6000 and 9000;
+
+/*32.  Выведите округлённую до тысяч (не тысячных) максимальную зарплату 
+среди всех средних зарплат по департаментам.*/
+select round (avg(max(salary)), -3)
+from employees
+group by department_id;
