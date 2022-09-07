@@ -224,3 +224,105 @@ having avg(salary) between 6000 and 9000;
 select round (avg(max(salary)), -3)
 from employees
 group by department_id;
+
+/*33.  Выведите информацию о регионах и кол-ве сотрудников в каждом регионе*/
+select region_name, count(employee_id)
+from employees e
+join departments d
+on (e.department_id=d.department_id)
+join locations l
+on (d.location_id=l.location_id)
+join countries c
+on (l.country_id=c.country_id)
+join regions r
+on (c.region_id=r.region_id)
+group by region_name;
+
+/*34.  Выведите детальную информацию о каждом сотруднике 
+(фамилия, имя , название департамента, джоб айди, адрес, страна и регион).*/
+select first_name, last_name, department_name, job_id, street_address, country_name, region_name
+from employees e
+join departments d
+on (e.department_id=d.department_id)
+join locations l
+on (d.location_id=l.location_id)
+join countries c
+on (l.country_id=c.country_id)
+join regions r
+on (c.region_id=r.region_id);
+
+/*35.  Выведите информацию о имени менеджеров которые имеют в подчинении >6 сотрудников, 
+а так же выведете кол-во сотрудников которые им подчиняются.*/
+select m.first_name, count (*)
+from employees em
+join employees m
+on(em.manager_id=m.employee_id)
+group by m.first_name
+having count(*)>6;
+
+/*36.  Выведите информацию о названии всех департаментов и о кол-ве работников, 
+если в департаменте работают > 30 сотрудников используйте технологию Юзинг для объединения по id департамента.*/
+select department_name, count(*)
+from employees e
+join departments d
+using (department_id)
+group by department_name
+having count(*)>30;
+/*37.  Выведите название всех департаментов в которых нет ни одного сотрудника.*/
+select department_name
+from employees e
+right join departments d
+on (e.department_id=d.department_id)
+where employee_id is null;
+
+/*38.  Выведите всю информацию о сотрудниках менеджеры которых устроились на работу в 2005 году, 
+но при этом сами работники устроились на работу до 1989 года.*/
+select e.*
+from employees e
+join employees m
+on (e.manager_id=m.employee_id)
+where to_char(m.hire_date, 'YYYY')='1989'
+and e.hire_date<to_date ('01-01-1989', 'DD-MM-YYYY');
+
+/*39.  Выведете название страны и название региона этой страны, используя Натурал джоин.*/
+select country_name, region_name
+from countries
+natural join regions;
+
+/*40.  Выведете фамилии , имена и зп сотрудников 
+которые получают меньше чем минимальная зп по специальности + 1000.*/
+select last_name, first_name, salary
+from employees e
+join jobs j
+on(e.job_id=j.job_id
+and salary<min_salary+1000);
+
+/*41.  Выведите уникальные имена и фамилии, названия стран сотрудников в которых они работают, 
+так же выведете информацию о сотрудниках о странах которых нет информации,
+а так же выведите все страны в которых нет сотрудников компании.*/
+select distinct first_name, last_name, country_name
+from employees e
+full outer join departments d
+on (e.department_id=d.department_id)
+full outer join locations l
+on (d.location_id=l.location_id)
+full outer join countries c
+on (l.country_id=c.country_id);
+
+/*42.  Выведите имена и фамилии всех сотрудников , а так же названия стран 
+которые мы получаем при объединении работников со всеми странами, без какой либо логики.*/
+select first_name, last_name, country_name
+from employees
+cross join countries;
+
+/*43.  Решите задачу №1 используя оракл джоин синтаксис.*/
+select region_name, count(*)
+from employees e, departments d, locations l, countries c, regions r
+where (e.department_id=d.department_id and d.location_id=l.location_id 
+and l.country_id=c.country_id and c.region_id=r.region_id)
+group by region_name;
+/*44.  Решите задачу №5 используя оракл джоин синтаксис.*/
+select department_name
+from employees e, departments d
+where e.department_id(+)=d.department_id
+and first_name is null;
