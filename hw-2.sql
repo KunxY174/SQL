@@ -326,3 +326,87 @@ select department_name
 from employees e, departments d
 where e.department_id(+)=d.department_id
 and first_name is null;
+
+/*45. Выведите всю информацию о сотрудниках, с самым длинным именем.*/
+select *
+from employees
+where length(first_name) in (select max (length(first_name)) from employees);
+
+/*46.  Выведите всю информацию о сотрудниках, с зарплатой большей 
+средней зарплаты всех сотрудников.*/
+select *
+from employees
+where salary > (select avg(salary) from employees);
+
+/*47.  Получить город/города, где сотрудники в сумме зарабатывают меньше всего.*/
+select city
+from employees e
+join departments d
+ on (e.department_id=d.department_id)
+join locations l
+on (l.location_id=d.location_id)
+group by city
+having  sum(salary) in (select min(sum(salary))
+                        from employees e
+                        join departments d
+                         on (e.department_id=d.department_id)
+                         join locations l
+                         on (l.location_id=d.location_id)
+                          group by city);
+
+/*48.  Выведите всю информацию о сотрудниках, у которых менеджер 
+получает зарплату больше 15000.*/
+select *
+from employees
+where manager_id in (select employee_id from employees
+                    where salary>15000);
+
+/*49.  Выведите всю информацию о департаментах, в которых нет ни одного 
+сотрудника.*/
+select *
+from departments
+where department_id not in (select distinct department_id from employees 
+                             where department_id is not null);
+
+/*50.  Выведите всю информацию о сотрудниках, которые не являются 
+менеджерами.*/
+select * 
+from employees e
+where employee_id not in (select distinct manager_id
+                           from employees
+                        where manager_id is not null);
+
+/*51.  Выведите всю информацию о менеджерах, которые имеют в 
+подчинении больше 6ти сотрудников.*/
+select * 
+from employees 
+where (select count(*) from employees
+       where manager_id=e.employee_id)>6;
+
+/*52.  Выведите всю информацию о сотрудниках, которые работают в 
+департаменте с названием IT.*/
+select *
+from employees
+where department_id in (select department_id
+                         from departments
+                        where department_name = 'IT');
+                        
+/*53.  Выведите всю информацию о сотрудниках, менеджеры которых 
+устроились на работу в 2005 ом году, но при это сами работники 
+устроились на работу до 2005 года..*/
+select *
+from employees
+where manager_id in (select employee_id from employees
+                     where to_char (hire_date, 'YYYY')= '2005'
+                     and hire_date < to_date ('01-01-2005', 'DD-MM-YYYY'));
+/*54.  Выведите всю информацию о сотрудниках, менеджеры которых 
+устроились на работу в январе любого года, и длина job_title этих 
+сотрудников больше 15ти символов.*/
+select * 
+from employees e
+where manager_id in (select employee_id
+                    from employees
+                    where to_char(hire_date, 'MM')='01')
+                    and (select length(job_title)
+                        from jobs
+                        where job_id = e.job_id)>15;
