@@ -169,3 +169,4 @@ rollback to savepoint ggg1;
 /*26. Совершите commit.*/
 commit;
 
+
