@@ -166,6 +166,6 @@ delete from locations2 where street_address = 'Sezam st. 18';
 /*25.  Откатите изменения до первого savepoint.*/
 rollback to savepoint ggg1;
 
-/*26.  цуеруфк commit.*/
+/*26. Совершите commit.*/
 commit;
 
