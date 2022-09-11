@@ -169,4 +169,86 @@ rollback to savepoint ggg1;
 /*26. Совершите commit.*/
 commit;
 
+/*27.  Создать таблицу friends с помощью subquery так, чтобы она после 
+создания содержала значения следующих столбцов из таблицы 
+employees: employee_id, first_name, last_name для тех строк, где 
+имеются комиссионные. Столбцы в таблице friends должны называться 
+id, name, surname.*/
+create table friends as 
+select employee_id, first_name name, last_name surname
+from employees
+where commission_pct is not null;
+
+/*28. Добавить в таблицу friends новый столбец email.*/
+alter table friends
+add (email varchar (25));
+
+/*29. Изменить столбец email так, чтобы его значение по умолчанию было 
+«no email».*/
+alter table friends
+modify (email varchar (25) default 'no email');
+
+/*30. Изменить название столбца с id на friends_id.*/
+alter table friends
+rename column employee_id to friend_id;
+
+
+/*31. Удалить таблицу friends.*/
+drop table friends;
+
+/*32. Создать таблицу friends со следующими столбцами: id, name, surname, 
+email, salary, city, birthday. У столбцов salary и birthday должны быть 
+значения по умолчанию.*/
+create table frineds (
+id int, 
+name varchar(25),
+surname varchar(25),
+email varchar(25),
+salary number  (9,3) default 10000,
+city varchar(25),
+birthday date default to_date ('15-JUN-1999', 'DD-MON-YYYY'));
+
+/*33. Добавить 1 строку в таблицу friends со всеми значениями.*/
+insert into frineds 
+values (1, 'kekeke', 'kekekelov', 'kekekek@ehflad.com', 1000, 'moscow', to_date('19-JUN-1999', 'DD-MON-YYYY'));
+
+/*34. Добавить 1 строку в таблицу friends со всеми значениями кроме salary
+и birthday.*/
+insert into frineds (id, name, surname, email, city) 
+values (2, 'memmem', 'mememelov', 'asddghg@asdazzd.com', 'moscow');
+
+/*35. Совершить commit.*/
+commit;
+
+/*36. Удалить столбец salary.*/
+alter table friends 
+drop column salary;
+
+/*37. Сделать столбец email неиспользуемым (unused).*/
+alter table friends 
+set unused column email;
+
+/*38. Сделать столбец birthday неиспользуемым (unused).*/
+alter table friends 
+set unused column birthday;
+
+
+/*39. Удалить из таблицы friends неиспользуемые столбцы.*/
+alter table friends 
+drop unused columns;
+
+/*40. Сделать таблицу friends пригодной только для чтения.*/
+alter table friends read only;
+
+/*41. Проверить предыдущее действие любой DML командой.*/
+insert into friends
+values (3, 'dsfdsv', 'asdasd', 'asdsadas');
+
+/*42. Опустошить таблицу friends.*/
+truncate table friends;
+
+/*43. Удалить таблицу friends.*/
+drop table friends;
+
+
 
