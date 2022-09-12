@@ -250,6 +250,55 @@ truncate table friends;
 /*43. Удалить таблицу friends.*/
 drop table friends;
 
+/*44. Создать таблицу address со следующими столбцами: id, country, city. 
+При создании таблицы создайте на inline уровне unique constraint с 
+именем ad_id_un на столбец id.*/
+create table address (
+id integer constraint id_un unique,
+country varchar(25),
+email varchar (25));
+
+/*45. Создать таблицу friends со следующими столбцами: id, name, email, 
+address_id, birthday. При создании таблицы создайте на inline уровне
+foreign key constraint на столбец address_id, который ссылается на 
+столбец id из таблицы address, используйте опцию «on delete set null».
+Также при создании таблицы создайте на table уровне check constraint
+для проверки того, что длина имени должна быть больше 3-х.*/
+create table friends (
+id integer,
+name varchar(25),
+city varchar (25),
+email varchar (25),
+address_id integer references address(id) on delete set null,
+birthday date,
+check (length(name)>3)
+);
+
+/*46.  Создайте уникальный индекс на столбец id из таблицы friends.*/
+create unique index f_id_un on friends (id);
+
+/*47. С помощью функционала «add» команды «alter table» создайте
+constraint primary key с названием fr_id_pk на столбец id из таблицы 
+friends.*/
+alter table friends
+add constraint fr_pk primary key (id);
+
+/*48. Создайте индекс с названием fr_email_in на столбец email из таблицы 
+friends.*/
+create unique inder fr_em_in on friends (email);
+
+/*49. С помощью функционала «modify» команды «alter table» создайте
+constraint not null с названием fr_email_nn на столбец email из таблицы 
+friends.*/
+alter table friends
+modify  (email constraint fr_email_nn not null);
+
+/*50. Удалите таблицу friends.*/
+drop table friends;
+
+/*51. Удалите таблицу address.*/
+drop table address;
+
 
 
 
