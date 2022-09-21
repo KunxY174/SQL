@@ -188,3 +188,100 @@ select point, date, sum(out) out, sum(inc) inc
 from dohod
 group by point, date
 
+--31.Для классов кораблей, калибр орудий которых не менее 16 дюймов, укажите класс и страну.
+Select class, country
+From classes c
+Where bore>=16;
+
+--32.Одной из характеристик корабля является половина куба калибра его главных орудий (mw). С точностью до 2 десятичных знаков определите среднее значение mw для кораблей каждой страны, у которой есть корабли в базе данных.
+with t1 as (select country, name, bore
+from classes c
+join ships s
+on (c.class=s.class)
+union
+select country, ship, bore
+from classes c
+join outcomes o
+on (c.class=o.ship))
+
+select distinct country, CAST(avg((bore*bore*bore)/2) AS numeric(6,2)) weight 
+from t1
+group by country;
+
+--33.Укажите корабли, потопленные в сражениях в Северной Атлантике (North Atlantic). Вывод: ship.
+select ship
+from outcomes
+where result = 'sunk'
+and battle in ('North Atlantic');
+
+--34.По Вашингтонскому международному договору от начала 1922 г. запрещалось строить линейные корабли водоизмещением более 35 тыс.тонн. Укажите корабли, нарушившие этот договор (учитывать только корабли c известным годом спуска на воду). Вывести названия кораблей.
+select distinct name
+from ships s
+join classes c
+on (s.class=c.class)
+where launched >=1922
+and displacement>35000
+and type = 'bb';
+
+--35.В таблице Product найти модели, которые состоят только из цифр или только из латинских букв (A-Z, без учета регистра). Вывод: номер модели, тип модели. В таблице Product найти модели, которые состоят только из цифр или только из латинских букв (A-Z, без учета регистра). Вывод: номер модели, тип модели.
+select model, type
+from product
+where upper (model) not  like '%[^0-9]%'
+or upper (model) not  like '%[^A-Z]%';
+
+--36.Перечислите названия головных кораблей, имеющихся в базе данных (учесть корабли в Outcomes).
+select name
+from ships s
+join classes c
+on (s.name=c.class)
+union
+select ship
+from outcomes o
+join classes c
+on (o.ship=c.class);
+
+--37.Найдите классы, в которые входит только один корабль из базы данных (учесть также корабли в Outcomes).
+with shipes as (select c.class, name
+from ships s
+join classes c
+on (c.class=s.class)
+union
+select c.class, ship
+from Outcomes o
+join classes c
+on (c.class=o.ship)
+)
+
+select class
+from shipes
+group by class
+having count (name)=1;
+
+--38.Найдите страны, имевшие когда-либо классы обычных боевых кораблей ('bb') и имевшие когда-либо классы крейсеров ('bc').
+select country
+from classes
+where type = 'bb'
+INTERSECT
+select country
+from classes
+where type = 'bc';
+
+--39.Найдите корабли, `сохранившиеся для будущих сражений`; т.е. выведенные из строя в одной битве (damaged), они участвовали в другой, произошедшей позже.
+select distinct ship
+from outcomes o
+join battles b
+on (o.battle=b.name)
+where ship in (select ship 
+from outcomes o
+join battles ba
+on (o.battle=ba.name)
+where b.date <ba.date)
+and result = 'damaged'
+
+--40.Найти производителей, которые выпускают более одной модели, при этом все выпускаемые производителем модели являются продуктами одного типа. Вывести: maker, type
+select maker, max(type) type
+from product
+group by maker
+having count(model)>1
+and count(distinct type)=1;
+
