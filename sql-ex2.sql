@@ -285,3 +285,101 @@ group by maker
 having count(model)>1
 and count(distinct type)=1;
 
+--41. Для каждого производителя, у которого присутствуют модели хотя бы в одной из таблиц PC, Laptop или Printer, определить максимальную цену на его продукцию.
+--Вывод: имя производителя, если среди цен на продукцию данного производителя присутствует NULL, то выводить для этого производителя NULL, иначе максимальную цену.
+with t1 as (select model, price
+           from pc  union
+select model, price from laptop
+union
+select model, price from printer)
+
+select distinct p.maker,
+case
+when max(case when t1.price is null then 1 else 0 end)=0 then max(t1.price)
+end
+from product p
+right join t1
+on (p.model=t1.model)
+group by maker;
+
+
+--42. Найдите названия кораблей, потопленных в сражениях, и название сражения, в котором они были потоплены.
+select ship, battle
+from outcomes
+where result = 'sunk';
+
+--43.Укажите сражения, которые произошли в годы, не совпадающие ни с одним из годов спуска кораблей на воду.
+select name
+from battles
+where DATEPART(YEAR, date) not in (select DATEPART(yy, date)
+from battles join ships on DATEPART(yy, date)=launched);
+
+--44. Найдите названия всех кораблей в базе данных, начинающихся с буквы R.
+select name
+from ships
+where name like 'R%'
+union
+select ship
+from outcomes
+where ship like 'R%';
+
+--45. Найдите названия всех кораблей в базе данных, состоящие из трех и более слов (например, King George V). Считать, что слова в названиях разделяются единичными пробелами, и нет концевых пробелов.
+select name
+from ships
+where name like '% % %'
+union
+select ship
+from outcomes
+where ship like '% % %';
+
+--46. Для каждого корабля, участвовавшего в сражении при Гвадалканале (Guadalcanal), вывести название, водоизмещение и число орудий.
+select o.ship, displacement, numGuns
+from (
+select name as class, displacement, numGuns
+from Classes c
+join ships s
+on (c.class=s.class)
+union
+select ship, displacement, numGuns
+from Classes c
+join outcomes o
+on (c.class=o.ship)
+) t1
+right join outcomes o
+on (t1.class=o.ship)
+where battle = 'Guadalcanal';
+
+
+--48. Найдите классы кораблей, в которых хотя бы один корабль был потоплен в сражении.
+select class
+from classes c
+join outcomes o
+on (c.class=o.ship)
+where result = 'sunk'
+union
+select class
+from ships s
+join outcomes o
+on (s.name=o.ship)
+where result = 'sunk';
+
+--49. Найдите названия кораблей с орудиями калибра 16 дюймов (учесть корабли из таблицы Outcomes).
+select name
+from classes c
+join ships s
+on (c.class=s.class)
+where bore = 16
+union
+select ship
+from classes c
+join outcomes o
+on (c.class=o.ship)
+where bore = 16;
+
+--50. Найдите сражения, в которых участвовали корабли класса Kongo из таблицы Ships.
+select distinct battle
+from  outcomes b
+join ships s
+on (b.ship=s.name)
+where class = 'Kongo';
+
