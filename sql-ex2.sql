@@ -383,3 +383,88 @@ join ships s
 on (b.ship=s.name)
 where class = 'Kongo';
 
+--52. Определить названия всех кораблей из таблицы Ships, которые могут быть линейным японским кораблем, имеющим число главных орудий не менее девяти, калибр орудий менее 19 дюймов и водоизмещение не более 65 тыс.тонн
+select name
+from ships s
+join classes c on (s.class=c.class)
+WHERE country = 'JAPAN' 
+AND (numguns>=9 or numguns is NULL) 
+AND (bore < 19 OR bore IS NULL) 
+AND (displacement <= 65000 OR displacement IS NULL) 
+AND type = 'bb';
+
+--53. Определите среднее число орудий для классов линейных кораблей. Получить результат с точностью до 2-х десятичных знаков.
+select cast (avg (numguns*1.0) as numeric (6,2))
+from classes c
+where type = 'bb';
+
+--54. С точностью до 2-х десятичных знаков определите среднее число орудий всех линейных кораблей (учесть корабли из таблицы Outcomes).
+select cast(avg(numguns*1.0)  as numeric (6,2))
+from (
+select name, class
+from ships
+union
+select ship, ship
+from outcomes ) t1
+join classes c 
+on (t1.class=c.class)
+where type = 'bb';
+
+--55. Для каждого класса определите год, когда был спущен на воду первый корабль этого класса. Если год спуска на воду головного корабля неизвестен, определите минимальный год спуска на воду кораблей этого класса. Вывести: класс, год.
+select c.class, min (launched) yer
+from ships s
+full join classes c
+on (c.class=s.class)
+group by c.class;
+
+
+--61. Посчитать остаток денежных средств на всех пунктах приема для базы данных с отчетностью не чаще одного раза в день.
+select sum(coalesce(inc, 0))-sum(coalesce(out, 0)) qty
+from income_o i
+full join outcome_o o
+on (i.point=o.point)
+and (i.date=o.date);
+
+--83.Определить названия всех кораблей из таблицы Ships, которые удовлетворяют, по крайней мере, комбинации любых четырёх критериев из следующего списка:
+--numGuns = 8
+--bore = 15
+--displacement = 32000
+--type = bb
+--launched = 1915
+--class=Kongo
+--country=USA
+select name 
+from ships s 
+join Classes c
+on (s.class=c.class)
+WHERE 
+CASE WHEN numGuns = 8 THEN 1 ELSE 0 END +
+CASE WHEN bore = 15 THEN 1 ELSE 0 END +
+CASE WHEN displacement = 32000 THEN 1 ELSE 0 END +
+CASE WHEN type = 'bb' THEN 1 ELSE 0 END +
+CASE WHEN launched = 1915 THEN 1 ELSE 0 END +
+CASE WHEN c.class='Kongo' THEN 1 ELSE 0 END +
+CASE WHEN country='USA' THEN 1 ELSE 0 END >=4;
+
+
+--89. Найти производителей, у которых больше всего моделей в таблице Product, а также тех, у которых меньше всего моделей. Вывод: maker, число моделей
+select maker, count(model) qty
+from product
+group by maker 
+having count (model)>=all (select count(model) qty
+                           from product
+                           group by maker)
+union
+select maker, count(model) qty
+from product
+group by maker 
+having count (model)<=all (select count(model) qty
+                          from product
+                          group by maker);
+
+--103. Выбрать три наименьших и три наибольших номера рейса. Вывести их в шести столбцах одной строки, расположив в порядке от наименьшего к наибольшему.
+--Замечание: считать, что таблица Trip содержит не менее шести строк.
+select min (t.trip_no), min (tt. trip_no), min (ttt.trip_no), max (t.trip_no), max (tt.trip_no), max (ttt.trip_no)
+from Trip t, trip tt, trip ttt
+where t.trip_no<tt. trip_no
+and tt. trip_no<ttt.trip_no;
