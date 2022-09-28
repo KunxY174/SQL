@@ -197,3 +197,81 @@ from Payments p
   join GoodTypes gt on (g.type = gt.good_type_id)
 WHERE YEAR(date) = 2005
 group by good_type_name;
+
+--28.Сколько рейсов совершили авиакомпании с Ростова (Rostov) в Москву (Moscow) ?
+SELECT count(id) as count
+from trip
+WHERE town_from = 'Rostov'
+  and town_to = 'Moscow';
+
+--29.Выведите имена пассажиров улетевших в Москву (Moscow) на самолете TU-134
+SELECT distinct name
+from passenger p
+  join Pass_in_trip pt on (p.id = pt.passenger)
+where trip in (
+    select id
+    from trip
+    where plane = 'TU-134'
+      and town_to = 'Moscow');
+
+--30.Выведите нагруженность (число пассажиров) каждого рейса (trip). Результат вывести в отсортированном виде по убыванию нагруженности.
+select trip, count (name) as count
+from passenger p
+  join Pass_in_trip pt on (p.id = pt.passenger)
+GROUP by trip
+ORDER by 2 desc;
+
+--31.Вывести всех членов семьи с фамилией Quincey.
+select *
+from FamilyMembers
+where member_name like '% Quincey';
+
+--32.Вывести средний возраст людей (в годах), хранящихся в базе данных. Результат округлите до целого в меньшую сторону.
+SELECT FLOOR (avg(TIMESTAMPDIFF(YEAR, birthday, now()))) as age
+from FamilyMembers;
+
+--33.Найдите среднюю стоимость икры. В базе данных хранятся данные о покупках красной (red caviar) и черной икры (black caviar).
+SELECT avg(unit_price) as cost
+from Payments p
+  join Goods g on (p.good = g.good_id)
+where good_name in ('red caviar', 'black caviar');
+
+
+--34.Сколько всего 10-ых классов
+select count(name) as count
+from class
+where name like '10 %';
+
+--35.Сколько различных кабинетов школы использовались 2.09.2019 в образовательных целях ?
+SELECT count(classroom) as count
+from Schedule
+where date = '2019-09-02';
+
+--36.Выведите информацию об обучающихся живущих на улице Пушкина (ul. Pushkina)?
+select *
+from student
+WHERE address like 'ul. Pushkina%';
+
+--37.Сколько лет самому молодому обучающемуся ?
+SELECT TIMESTAMPDIFF (YEAR, max(birthday), now()) as year
+from student;
+
+--38.Сколько Анн (Anna) учится в школе ?
+SELECT count(id) as count
+FROM Student
+where first_name = 'Anna';
+
+--39.Сколько обучающихся в 10 B классе ?
+select count(student) as count
+from Student_in_class s
+  join class c on (s.class = c.id)
+where name like '10 B';
+
+--40.Выведите название предметов, которые преподает Ромашкин П.П. (Romashkin P.P.) ?
+select name as subjects
+from subject s  
+join Schedule sc
+on (s.id=sc.subject)
+join Teacher t
+on (sc.teacher=t.id)
+where last_name = 'Romashkin';
