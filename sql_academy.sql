@@ -349,3 +349,76 @@ SELECT FLOOR((COUNT(id) * 100 /(SELECT COUNT(id)
                                 from Student))) as percent
 FROM Student
 WHERE YEAR(birthday) = '2000';
+
+--51.Добавьте товар с именем "Cheese" и типом "food" в список товаров (Goods).
+INSERT INTO Goods (good_id, good_name, type)
+VALUES (17, 'Cheese', 2);
+
+--52.Добавьте в список типов товаров (GoodTypes) новый тип "auto".
+INSERT into GoodTypes (good_type_id, good_type_name)
+values (9, 'auto');
+
+--53.Измените имя "Andie Quincey" на новое "Andie Anthony".
+update FamilyMembers
+set member_name = 'Andie Anthony'
+where member_name = 'Andie Quincey';
+
+--54.Удалить всех членов семьи с фамилией "Quincey".
+DELETE from FamilyMembers
+where member_name like '% Quincey';
+
+--55.Удалить компании, совершившие наименьшее количество рейсов.
+DELETE from Company
+where name in (
+    WITH t1 as (
+      select name,
+        count (t.id) qrt
+      from Company c
+        join trip t on (c.id = t.company)
+      group by name
+    )
+    select name
+    from t1
+    where qrt = (
+        select min (qrt)
+        from t1
+      )
+  );
+
+--56.Удалить все перелеты, совершенные из Москвы (Moscow).
+DELETE from Trip
+where town_from = 'Moscow';
+
+--57.Перенести расписание всех занятий на 30 мин. вперед.
+update Timepair
+SET 
+start_pair=start_pair + interval +30 MINUTE,
+end_pair =end_pair + interval +30 MINUTE;
+
+--58.Добавить отзыв с рейтингом 5 на жилье, находящиеся по адресу "11218, Friel Place, New York", от имени "George Clooney"
+INSERT into reviews 
+SEt id = (select count(*)+1 
+          from reviews as a),
+rating=5,
+reservation_id = (select r.id 
+                  from reservations  r
+                  join rooms ro
+                  on (r.room_id=ro.id)
+                  join users u
+                  on (r.user_id=u.id)
+                  where address= '11218, Friel Place, New York'
+                  and name = 'George Clooney');
+
+--59.Вывести пользователей,указавших Белорусский номер телефона ? Телефонный код Белоруссии +375.
+select *
+from Users
+WHERE phone_number like '+375%';
+
+--60.Выведите идентификаторы преподавателей, которые хотя бы один раз за всё время преподавали в каждом из одиннадцатых классов.
+select teacher
+from Schedule s
+JOIN class c
+on (s.class=c.id)
+where name like '11%'
+group by teacher
+HAVING count (DISTINCT name)>=2;
