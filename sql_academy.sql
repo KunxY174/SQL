@@ -424,12 +424,34 @@ group by teacher
 HAVING count (DISTINCT name)>=2;
 
 --61.Выведите список комнат, которые были зарезервированы в течение 12 недели 2020 года.
+SELECT Rooms.*
+FROM Rooms
+  JOIN Reservations re 
+  ON (Rooms.id = re.room_id)
+WHERE WEEK(start_date, 1) = 12
+  OR WEEK(end_date, 1) = 12;
 
 --62.Вывести в порядке убывания популярности доменные имена 2-го уровня, используемые пользователями для электронной почты. Полученный результат необходимо дополнительно отсортировать по возрастанию названий доменных имён.
+SELECT SUBSTRING(email, LOCATE('@', email)) as domain,
+count (*) as count
+from Users
+group by domain
+order by count DESC, domain asc;
 
 --63.Выведите отсортированный список (по возрастанию) имен студентов в виде Фамилия.И.О.
+select concat (last_name, '.',
+SUBSTRING(first_name, 1,1), '.', 
+SUBSTRING(middle_name, 1,1)) as name
+from Student
+order by name;
 
 --64.Вывести количество бронирований по каждому месяцу каждого года, в которых было хотя бы 1 бронирование. Результат отсортируйте в порядке возрастания даты бронирования.
+select YEAR(start_date) as year, MONTH(start_date) as month,
+COUNT(*) as amount
+from Reservations
+GROUP by 1, 2
+having count (*)>=1
+ORDER by 1, 2;
 
 --65.Необходимо вывести рейтинг для комнат, которые хоть раз арендовали, как среднее значение рейтинга отзывов округленное до целого вниз.
 
