@@ -1,7 +1,4 @@
-/*1. Выведите в одном репорте информацию о суммах з/п групп, 
-объединённых по id менеджера, по job_id, по id департамента. Репорт 
-должен содержать 4 столбца: id менеджера, job_id, id департамента, 
-суммированная з/п.*/
+--1.  Р’С‹РІРµРґРёС‚Рµ РІ РѕРґРЅРѕРј СЂРµРїРѕСЂС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЃСѓРјРјР°С… Р·/Рї РіСЂСѓРїРї, РѕР±СЉРµРґРёРЅС‘РЅРЅС‹С… РїРѕ id РјРµРЅРµРґР¶РµСЂР°, РїРѕ job_id, РїРѕ id РґРµРїР°СЂС‚Р°РјРµРЅС‚Р°. Р РµРїРѕСЂС‚ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ 4 СЃС‚РѕР»Р±С†Р°: id РјРµРЅРµРґР¶РµСЂР°, job_id, id РґРµРїР°СЂС‚Р°РјРµРЅС‚Р°, СЃСѓРјРјРёСЂРѕРІР°РЅРЅР°СЏ Р·/Рї.
 select manager_id, to_char(null) job_id, to_number(null) department_id, sum(salary)
 from employees
 group by manager_id
@@ -14,8 +11,7 @@ select to_number(null), to_char(null), department_id, sum(salary)
 from employees
 group by department_id;
 
-/*2. Выведите id тех департаментов, где работает менеджер № 100 и не 
-работают менеджеры № 145, 201.*/
+--2. Р’С‹РІРµРґРёС‚Рµ id С‚РµС… РґРµРїР°СЂС‚Р°РјРµРЅС‚РѕРІ, РіРґРµ СЂР°Р±РѕС‚Р°РµС‚ РјРµРЅРµРґР¶РµСЂ в„– 100 Рё РЅРµ СЂР°Р±РѕС‚Р°СЋС‚ РјРµРЅРµРґР¶РµСЂС‹ в„– 145, 201
 select department_id  
 from employees
 where manager_id=100
@@ -24,11 +20,7 @@ select department_id
 from employees
 where manager_id in (145, 201);
 
-/*3. Используя SET операторы и не используя логические операторы, 
-выведите уникальную информацию о именах, фамилиях и з/п 
-сотрудников, второй символ в именах которых буква «а», и фамилия 
-содержит букву «s» вне зависимости от регистра. Отсортируйте 
-результат по з/п по убыванию.*/
+--3. РСЃРїРѕР»СЊР·СѓСЏ SET РѕРїРµСЂР°С‚РѕСЂС‹ Рё РЅРµ РёСЃРїРѕР»СЊР·СѓСЏ Р»РѕРіРёС‡РµСЃРєРёРµ РѕРїРµСЂР°С‚РѕСЂС‹, РІС‹РІРµРґРёС‚Рµ СѓРЅРёРєР°Р»СЊРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РёРјРµРЅР°С…, С„Р°РјРёР»РёСЏС… Рё Р·/Рї СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ, РІС‚РѕСЂРѕР№ СЃРёРјРІРѕР» РІ РёРјРµРЅР°С… РєРѕС‚РѕСЂС‹С… Р±СѓРєРІР° В«Р°В», Рё С„Р°РјРёР»РёСЏ СЃРѕРґРµСЂР¶РёС‚ Р±СѓРєРІСѓ В«sВ» РІРЅРµ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЂРµРіРёСЃС‚СЂР°. РћС‚СЃРѕСЂС‚РёСЂСѓР№С‚Рµ СЂРµР·СѓР»СЊС‚Р°С‚ РїРѕ Р·/Рї РїРѕ СѓР±С‹РІР°РЅРёСЋ.
 select first_name, last_name, salary 
 from employees
 where first_name like '_a%'
@@ -38,10 +30,7 @@ from employees
 where lower(first_name) like '%s%'
 order by salary desc;
 
-/*4.  Используя SET операторы и не используя логические операторы, 
-выведите информацию о id локаций, почтовом коде и городе для 
-локаций, которые находятся в Италии или Германии. А также для 
-локаций, почтовый код которых содержит цифру «9».*/
+--4.  РСЃРїРѕР»СЊР·СѓСЏ SET РѕРїРµСЂР°С‚РѕСЂС‹ Рё РЅРµ РёСЃРїРѕР»СЊР·СѓСЏ Р»РѕРіРёС‡РµСЃРєРёРµ РѕРїРµСЂР°С‚РѕСЂС‹, РІС‹РІРµРґРёС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ id Р»РѕРєР°С†РёР№, РїРѕС‡С‚РѕРІРѕРј РєРѕРґРµ Рё РіРѕСЂРѕРґРµ РґР»СЏ Р»РѕРєР°С†РёР№, РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РІ РС‚Р°Р»РёРё РёР»Рё Р“РµСЂРјР°РЅРёРё. Рђ С‚Р°РєР¶Рµ РґР»СЏ Р»РѕРєР°С†РёР№, РїРѕС‡С‚РѕРІС‹Р№ РєРѕРґ РєРѕС‚РѕСЂС‹С… СЃРѕРґРµСЂР¶РёС‚ С†РёС„СЂСѓ В«9В».
 select location_id, postal_code, city
 from locations
 where country_id in (select country_id from countries
@@ -51,11 +40,7 @@ select location_id, postal_code, city
 from locations 
 where postal_code like '%9%';
 
-/*5.  Используя SET операторы и не используя логические операторы, 
-выведите всю уникальную информацию для стран, длина имён 
-которых больше 8 символов. А также для стран, которые находятся не в 
-европейском регионе. Столбцы аутпута должны называться id, country, 
-region. Аутпут отсортируйте по названию стран по убывающей.*/
+--5.  РСЃРїРѕР»СЊР·СѓСЏ SET РѕРїРµСЂР°С‚РѕСЂС‹ Рё РЅРµ РёСЃРїРѕР»СЊР·СѓСЏ Р»РѕРіРёС‡РµСЃРєРёРµ РѕРїРµСЂР°С‚РѕСЂС‹, РІС‹РІРµРґРёС‚Рµ РІСЃСЋ СѓРЅРёРєР°Р»СЊРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РґР»СЏ СЃС‚СЂР°РЅ, РґР»РёРЅР° РёРјС‘РЅ РєРѕС‚РѕСЂС‹С… Р±РѕР»СЊС€Рµ 8 СЃРёРјРІРѕР»РѕРІ. Рђ С‚Р°РєР¶Рµ РґР»СЏ СЃС‚СЂР°РЅ, РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РЅРµ РІ РµРІСЂРѕРїРµР№СЃРєРѕРј СЂРµРіРёРѕРЅРµ. РЎС‚РѕР»Р±С†С‹ Р°СѓС‚РїСѓС‚Р° РґРѕР»Р¶РЅС‹ РЅР°Р·С‹РІР°С‚СЊСЃСЏ id, country, region. РђСѓС‚РїСѓС‚ РѕС‚СЃРѕСЂС‚РёСЂСѓР№С‚Рµ РїРѕ РЅР°Р·РІР°РЅРёСЋ СЃС‚СЂР°РЅ РїРѕ СѓР±С‹РІР°СЋС‰РµР№
 select country_id id, country_name country, region_id region
 from countries
 where length(country_name)>8
@@ -66,54 +51,40 @@ where region_id != (select region_id from regions
                      where region_name = 'Europe')
 order by country desc;
 
-/*6. Перепишите и запустите данный statemenet для создания таблицы 
-locations2, которая будет содержать такие же столбцы, что и locations:
-CREATE TABLE locations2 AS (SELECT * FROM locations WHERE 1=2);*/
+--6. РџРµСЂРµРїРёС€РёС‚Рµ Рё Р·Р°РїСѓСЃС‚РёС‚Рµ РґР°РЅРЅС‹Р№ statemenet РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С‚Р°Р±Р»РёС†С‹ locations2, РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ С‚Р°РєРёРµ Р¶Рµ СЃС‚РѕР»Р±С†С‹, С‡С‚Рѕ Рё locations:
 CREATE TABLE locations2 AS (SELECT * FROM locations WHERE 1=2);
 
-/*7.  Добавьте в таблицу locations2 2 строки с информацией о id локации, 
-адресе, городе, id страны. Пусть данные строки относятся к стране 
-Италия.*/
+--7.  Р”РѕР±Р°РІСЊС‚Рµ РІ С‚Р°Р±Р»РёС†Сѓ locations2 2 СЃС‚СЂРѕРєРё СЃ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ id Р»РѕРєР°С†РёРё, Р°РґСЂРµСЃРµ, РіРѕСЂРѕРґРµ, id СЃС‚СЂР°РЅС‹. РџСѓСЃС‚СЊ РґР°РЅРЅС‹Рµ СЃС‚СЂРѕРєРё РѕС‚РЅРѕСЃСЏС‚СЃСЏ Рє СЃС‚СЂР°РЅРµ РС‚Р°Р»РёСЏ.
 insert into locations2 (location_id, street_address, city, country_id)
 values (1, 'test_address', 'italy_cities', 'IT');
 
 insert into locations2 (location_id, street_address, city, country_id)
 values (2, 'test_address2', 'milan', 'IT');
-/*8.  Совершите commit.*/
+--8. РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*9.  Добавьте в таблицу locations2 ещё 2 строки, не используя 
-перечисления имён столбцов, в которые заносится информация. Пусть 
-данные строки относятся к стране Франция. При написании значений, 
-где возможно, используйте функции.*/
+--9.  Р”РѕР±Р°РІСЊС‚Рµ РІ С‚Р°Р±Р»РёС†Сѓ locations2 РµС‰С‘ 2 СЃС‚СЂРѕРєРё, РЅРµ РёСЃРїРѕР»СЊР·СѓСЏ РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ РёРјС‘РЅ СЃС‚РѕР»Р±С†РѕРІ, РІ РєРѕС‚РѕСЂС‹Рµ Р·Р°РЅРѕСЃРёС‚СЃСЏ РёРЅС„РѕСЂРјР°С†РёСЏ. РџСѓСЃС‚СЊ РґР°РЅРЅС‹Рµ СЃС‚СЂРѕРєРё РѕС‚РЅРѕСЃСЏС‚СЃСЏ Рє СЃС‚СЂР°РЅРµ Р¤СЂР°РЅС†РёСЏ. РџСЂРё РЅР°РїРёСЃР°РЅРёРё Р·РЅР°С‡РµРЅРёР№, РіРґРµ РІРѕР·РјРѕР¶РЅРѕ, РёСЃРїРѕР»СЊР·СѓР№С‚Рµ С„СѓРЅРєС†РёРё.
 insert into locations2
 values (3, initcap('qpefkg'), '999-888-666', initcap('paris'), 'Test province', upper('fr'));
 
 insert into locations2
 values (4, initcap('Parmentsl'), '999-888-666', initcap('mexico'), 'Testing', upper('fr'));
-/*10.  Совершите commit.*/
+--10. РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*11.  Добавьте в таблицу locations2 строки из таблицы locations, в которых 
-длина значения столбца state_province больше 9.*/
+--11.  Р”РѕР±Р°РІСЊС‚Рµ РІ С‚Р°Р±Р»РёС†Сѓ locations2 СЃС‚СЂРѕРєРё РёР· С‚Р°Р±Р»РёС†С‹ locations, РІ РєРѕС‚РѕСЂС‹С… РґР»РёРЅР° Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕР»Р±С†Р° state_province Р±РѕР»СЊС€Рµ 9
 insert into locations2 (location_id, street_address, postal_code, city, state_province, country_id)
 (select location_id, street_address, postal_code, city, state_province, country_id
 from locations
 where length(state_province) >9);
 
-/*12.  Совершите commit.*/
+--12. РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*13.  Перепишите и запустите данный statemenet для создания таблицы 
-locations4europe, которая будет содержать такие же столбцы, что и 
-locations:
-CREATE TABLE locations4europe AS (SELECT * FROM locations WHERE 1=2);*/
+--13.  РџРµСЂРµРїРёС€РёС‚Рµ Рё Р·Р°РїСѓСЃС‚РёС‚Рµ РґР°РЅРЅС‹Р№ statemenet РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С‚Р°Р±Р»РёС†С‹ locations4europe, РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ С‚Р°РєРёРµ Р¶Рµ СЃС‚РѕР»Р±С†С‹, С‡С‚Рѕ Рё locations:
 CREATE TABLE locations4europe AS (SELECT * FROM locations WHERE 1=2);
 
-/*14.  Одним statement-ом добавьте в таблицу locations2 всю информацию
-для всех строк из таблицы locations, а в таблицу locations4europe
-добавьте информацию о id локации, адресе, городе, id страны только
-для тех строк из таблицы locations, где города находятся в Европе.*/
+--14.  РћРґРЅРёРј statement-РѕРј РґРѕР±Р°РІСЊС‚Рµ РІ С‚Р°Р±Р»РёС†Сѓ locations2 РІСЃСЋ РёРЅС„РѕСЂРјР°С†РёСЋРґР»СЏ РІСЃРµС… СЃС‚СЂРѕРє РёР· С‚Р°Р±Р»РёС†С‹ locations, Р° РІ С‚Р°Р±Р»РёС†Сѓ locations4europeРґРѕР±Р°РІСЊС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ id Р»РѕРєР°С†РёРё, Р°РґСЂРµСЃРµ, РіРѕСЂРѕРґРµ, id СЃС‚СЂР°РЅС‹ С‚РѕР»СЊРєРѕ РґР»СЏ С‚РµС… СЃС‚СЂРѕРє РёР· С‚Р°Р±Р»РёС†С‹ locations, РіРґРµ РіРѕСЂРѕРґР° РЅР°С…РѕРґСЏС‚СЃСЏ РІ Р•РІСЂРѕРїРµ. 
 insert ALL
 when 1=1 then
 into locations2
@@ -123,82 +94,72 @@ into locations4europe (location_id, street_address, city, country_id)
 values (location_id, street_address, city, country_id)
 select * from locations;
 
-/*15.  Совершите commit.*/
+--15. РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*16.  В таблице locations2 измените почтовый код на любое значение в тех 
-строках, где сейчас нет информации о почтовом коде.*/
+--16.  Р’ С‚Р°Р±Р»РёС†Рµ locations2 РёР·РјРµРЅРёС‚Рµ РїРѕС‡С‚РѕРІС‹Р№ РєРѕРґ РЅР° Р»СЋР±РѕРµ Р·РЅР°С‡РµРЅРёРµ РІ С‚РµС… СЃС‚СЂРѕРєР°С…, РіРґРµ СЃРµР№С‡Р°СЃ РЅРµС‚ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїРѕС‡С‚РѕРІРѕРј РєРѕРґРµ.
 update locations2
 set postal_code= 'test_code'
 where postal_code is null;
 
-/*17.  Совершите rollback.*/
+--17. РЎРѕРІРµСЂС€РёС‚Рµ rollback.--
 rollback;
 
-/*18.  .В таблице locations2 измените почтовый код в тех строках, где сейчас 
-нет информации о почтовом коде. Новое значение должно быть кодом
-из таблицы locations для строки с id 2600.*/
+--18.  Р’ С‚Р°Р±Р»РёС†Рµ locations2 РёР·РјРµРЅРёС‚Рµ РїРѕС‡С‚РѕРІС‹Р№ РєРѕРґ РІ С‚РµС… СЃС‚СЂРѕРєР°С…, РіРґРµ СЃРµР№С‡Р°СЃ РЅРµС‚ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїРѕС‡С‚РѕРІРѕРј РєРѕРґРµ. РќРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РєРѕРґРѕРј РёР· С‚Р°Р±Р»РёС†С‹ locations РґР»СЏ СЃС‚СЂРѕРєРё СЃ id 2600.
+
 update locations2
 set postal_code= (select postal_code from locations where location_id=2600)
 where postal_code is null;
 
-/*19.  Совершите commit.*/
+--19. РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*20.  Удалите строки из таблицы locations2, где id страны «IT».*/
+--20.  РЈРґР°Р»РёС‚Рµ СЃС‚СЂРѕРєРё РёР· С‚Р°Р±Р»РёС†С‹ locations2, РіРґРµ id СЃС‚СЂР°РЅС‹ В«ITВ».
 delete from locations2
 where country_id = 'IT';
 
-/*21.  Создайте первый savepoint.*/
+--21.  РЎРѕР·РґР°Р№С‚Рµ РїРµСЂРІС‹Р№ savepoint.
 savepoint  ggg1;
 
-/*22.  В таблице locations2 измените адрес в тех строках, где id локации 
-больше 2500. Новое значение должно быть «Sezam st. 18»*/
+--22.  Р’ С‚Р°Р±Р»РёС†Рµ locations2 РёР·РјРµРЅРёС‚Рµ Р°РґСЂРµСЃ РІ С‚РµС… СЃС‚СЂРѕРєР°С…, РіРґРµ id Р»РѕРєР°С†РёРё Р±РѕР»СЊС€Рµ 2500. РќРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ В«Sezam st. 18В»
 update locations2 set street_address = 'Sezam st. 18'
 where location_id>2500;
 
-/*23.  Создайте второй savepoint.*/
+--23.  РЎРѕР·РґР°Р№С‚Рµ РІС‚РѕСЂРѕР№ savepoint.
 savepoint ggg2;
 
-/*24.  .Удалите строки из таблицы locations2, где адрес равен «Sezam st. 18».*/
+--24.  РЈРґР°Р»РёС‚Рµ СЃС‚СЂРѕРєРё РёР· С‚Р°Р±Р»РёС†С‹ locations2, РіРґРµ Р°РґСЂРµСЃ СЂР°РІРµРЅ В«Sezam st. 18В».
 delete from locations2 where street_address = 'Sezam st. 18';
 
-/*25.  Откатите изменения до первого savepoint.*/
+--25.  РћС‚РєР°С‚РёС‚Рµ РёР·РјРµРЅРµРЅРёСЏ РґРѕ РїРµСЂРІРѕРіРѕ savepoint.
 rollback to savepoint ggg1;
 
-/*26. Совершите commit.*/
+--26 РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*27.  Создать таблицу friends с помощью subquery так, чтобы она после 
-создания содержала значения следующих столбцов из таблицы 
-employees: employee_id, first_name, last_name для тех строк, где 
-имеются комиссионные. Столбцы в таблице friends должны называться 
-id, name, surname.*/
+--27.  РЎРѕР·РґР°С‚СЊ С‚Р°Р±Р»РёС†Сѓ friends СЃ РїРѕРјРѕС‰СЊСЋ subquery С‚Р°Рє, С‡С‚РѕР±С‹ РѕРЅР° РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ СЃРѕРґРµСЂР¶Р°Р»Р° Р·РЅР°С‡РµРЅРёСЏ СЃР»РµРґСѓСЋС‰РёС… СЃС‚РѕР»Р±С†РѕРІ РёР· С‚Р°Р±Р»РёС†С‹ employees: employee_id, first_name, last_name РґР»СЏ С‚РµС… СЃС‚СЂРѕРє, РіРґРµ РёРјРµСЋС‚СЃСЏ РєРѕРјРёСЃСЃРёРѕРЅРЅС‹Рµ. РЎС‚РѕР»Р±С†С‹ РІ С‚Р°Р±Р»РёС†Рµ friends РґРѕР»Р¶РЅС‹ РЅР°Р·С‹РІР°С‚СЊСЃСЏ id, name, surname .
 create table friends as 
 select employee_id, first_name name, last_name surname
 from employees
 where commission_pct is not null;
 
-/*28. Добавить в таблицу friends новый столбец email.*/
+--28. Р”РѕР±Р°РІРёС‚СЊ РІ С‚Р°Р±Р»РёС†Сѓ friends РЅРѕРІС‹Р№ СЃС‚РѕР»Р±РµС† email .
 alter table friends
 add (email varchar (25));
 
-/*29. Изменить столбец email так, чтобы его значение по умолчанию было 
-«no email».*/
+--29. РР·РјРµРЅРёС‚СЊ СЃС‚РѕР»Р±РµС† email С‚Р°Рє, С‡С‚РѕР±С‹ РµРіРѕ Р·РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ Р±С‹Р»Рѕ  В«no emailВ».
 alter table friends
 modify (email varchar (25) default 'no email');
 
-/*30. Изменить название столбца с id на friends_id.*/
+--30. РР·РјРµРЅРёС‚СЊ РЅР°Р·РІР°РЅРёРµ СЃС‚РѕР»Р±С†Р° СЃ id РЅР° friends_id .
 alter table friends
 rename column employee_id to friend_id;
 
 
-/*31. Удалить таблицу friends.*/
+--31. РЈРґР°Р»РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ friends
 drop table friends;
 
-/*32. Создать таблицу friends со следующими столбцами: id, name, surname, 
-email, salary, city, birthday. У столбцов salary и birthday должны быть 
-значения по умолчанию.*/
+--32. РЎРѕР·РґР°С‚СЊ С‚Р°Р±Р»РёС†Сѓ friends СЃРѕ СЃР»РµРґСѓСЋС‰РёРјРё СЃС‚РѕР»Р±С†Р°РјРё: id, name, surname, email, salary, city, birthday. РЈ СЃС‚РѕР»Р±С†РѕРІ salary Рё birthday РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.
 create table frineds (
 id int, 
 name varchar(25),
@@ -208,62 +169,54 @@ salary number  (9,3) default 10000,
 city varchar(25),
 birthday date default to_date ('15-JUN-1999', 'DD-MON-YYYY'));
 
-/*33. Добавить 1 строку в таблицу friends со всеми значениями.*/
+--33. Р”РѕР±Р°РІРёС‚СЊ 1 СЃС‚СЂРѕРєСѓ РІ С‚Р°Р±Р»РёС†Сѓ friends СЃРѕ РІСЃРµРјРё Р·РЅР°С‡РµРЅРёСЏРјРё.
 insert into frineds 
 values (1, 'kekeke', 'kekekelov', 'kekekek@ehflad.com', 1000, 'moscow', to_date('19-JUN-1999', 'DD-MON-YYYY'));
 
-/*34. Добавить 1 строку в таблицу friends со всеми значениями кроме salary
-и birthday.*/
+--34. Р”РѕР±Р°РІРёС‚СЊ 1 СЃС‚СЂРѕРєСѓ РІ С‚Р°Р±Р»РёС†Сѓ friends СЃРѕ РІСЃРµРјРё Р·РЅР°С‡РµРЅРёСЏРјРё РєСЂРѕРјРµ salary Рё birthday.
 insert into frineds (id, name, surname, email, city) 
 values (2, 'memmem', 'mememelov', 'asddghg@asdazzd.com', 'moscow');
 
-/*35. Совершить commit.*/
+--35. РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
-/*36. Удалить столбец salary.*/
+--36. РЈРґР°Р»РёС‚СЊ СЃС‚РѕР»Р±РµС† salary.
 alter table friends 
 drop column salary;
 
-/*37. Сделать столбец email неиспользуемым (unused).*/
+--37. РЎРґРµР»Р°С‚СЊ СЃС‚РѕР»Р±РµС† email РЅРµРёСЃРїРѕР»СЊР·СѓРµРјС‹Рј (unused).
 alter table friends 
 set unused column email;
 
-/*38. Сделать столбец birthday неиспользуемым (unused).*/
+--38. РЎРґРµР»Р°С‚СЊ СЃС‚РѕР»Р±РµС† birthday РЅРµРёСЃРїРѕР»СЊР·СѓРµРјС‹Рј (unused).
 alter table friends 
 set unused column birthday;
 
 
-/*39. Удалить из таблицы friends неиспользуемые столбцы.*/
+--39. РЈРґР°Р»РёС‚СЊ РёР· С‚Р°Р±Р»РёС†С‹ friends РЅРµРёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ СЃС‚РѕР»Р±С†С‹
 alter table friends 
 drop unused columns;
 
-/*40. Сделать таблицу friends пригодной только для чтения.*/
+--40. РЎРґРµР»Р°С‚СЊ С‚Р°Р±Р»РёС†Сѓ friends РїСЂРёРіРѕРґРЅРѕР№ С‚РѕР»СЊРєРѕ РґР»СЏ С‡С‚РµРЅРёСЏ.
 alter table friends read only;
 
-/*41. Проверить предыдущее действие любой DML командой.*/
+--41. РџСЂРѕРІРµСЂРёС‚СЊ РїСЂРµРґС‹РґСѓС‰РµРµ РґРµР№СЃС‚РІРёРµ Р»СЋР±РѕР№ DML РєРѕРјР°РЅРґРѕР№.
 insert into friends
 values (3, 'dsfdsv', 'asdasd', 'asdsadas');
 
-/*42. Опустошить таблицу friends.*/
+--42. РћРїСѓСЃС‚РѕС€РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ friends.
 truncate table friends;
 
-/*43. Удалить таблицу friends.*/
+--43. РЈРґР°Р»РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ friends
 drop table friends;
 
-/*44. Создать таблицу address со следующими столбцами: id, country, city. 
-При создании таблицы создайте на inline уровне unique constraint с 
-именем ad_id_un на столбец id.*/
+--44. РЎРѕР·РґР°С‚СЊ С‚Р°Р±Р»РёС†Сѓ address СЃРѕ СЃР»РµРґСѓСЋС‰РёРјРё СЃС‚РѕР»Р±С†Р°РјРё: id, country, city. РџСЂРё СЃРѕР·РґР°РЅРёРё С‚Р°Р±Р»РёС†С‹ СЃРѕР·РґР°Р№С‚Рµ РЅР° inline СѓСЂРѕРІРЅРµ unique constraint СЃ РёРјРµРЅРµРј ad_id_un РЅР° СЃС‚РѕР»Р±РµС† id.
 create table address (
 id integer constraint id_un unique,
 country varchar(25),
 email varchar (25));
 
-/*45. Создать таблицу friends со следующими столбцами: id, name, email, 
-address_id, birthday. При создании таблицы создайте на inline уровне
-foreign key constraint на столбец address_id, который ссылается на 
-столбец id из таблицы address, используйте опцию «on delete set null».
-Также при создании таблицы создайте на table уровне check constraint
-для проверки того, что длина имени должна быть больше 3-х.*/
+--45. РЎРѕР·РґР°С‚СЊ С‚Р°Р±Р»РёС†Сѓ friends СЃРѕ СЃР»РµРґСѓСЋС‰РёРјРё СЃС‚РѕР»Р±С†Р°РјРё: id, name, email, address_id, birthday. РџСЂРё СЃРѕР·РґР°РЅРёРё С‚Р°Р±Р»РёС†С‹ СЃРѕР·РґР°Р№С‚Рµ РЅР° inline СѓСЂРѕРІРЅРµforeign key constraint РЅР° СЃС‚РѕР»Р±РµС† address_id, РєРѕС‚РѕСЂС‹Р№ СЃСЃС‹Р»Р°РµС‚СЃСЏ РЅР° СЃС‚РѕР»Р±РµС† id РёР· С‚Р°Р±Р»РёС†С‹ address, РёСЃРїРѕР»СЊР·СѓР№С‚Рµ РѕРїС†РёСЋ В«on delete set nullВ». РўР°РєР¶Рµ РїСЂРё СЃРѕР·РґР°РЅРёРё С‚Р°Р±Р»РёС†С‹ СЃРѕР·РґР°Р№С‚Рµ РЅР° table СѓСЂРѕРІРЅРµ check constraint РґР»СЏ РїСЂРѕРІРµСЂРєРё С‚РѕРіРѕ, С‡С‚Рѕ РґР»РёРЅР° РёРјРµРЅРё РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 3-С….
 create table friends (
 id integer,
 name varchar(25),
@@ -274,90 +227,75 @@ birthday date,
 check (length(name)>3)
 );
 
-/*46.  Создайте уникальный индекс на столбец id из таблицы friends.*/
+--46.  РЎРѕР·РґР°Р№С‚Рµ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ РЅР° СЃС‚РѕР»Р±РµС† id РёР· С‚Р°Р±Р»РёС†С‹ friends.
 create unique index f_id_un on friends (id);
 
-/*47. С помощью функционала «add» команды «alter table» создайте
-constraint primary key с названием fr_id_pk на столбец id из таблицы 
-friends.*/
+--47. РЎ РїРѕРјРѕС‰СЊСЋ С„СѓРЅРєС†РёРѕРЅР°Р»Р° В«addВ» РєРѕРјР°РЅРґС‹ В«alter tableВ» СЃРѕР·РґР°Р№С‚Рµconstraint primary key СЃ РЅР°Р·РІР°РЅРёРµРј fr_id_pk РЅР° СЃС‚РѕР»Р±РµС† id РёР· С‚Р°Р±Р»РёС†С‹ friends.
 alter table friends
 add constraint fr_pk primary key (id);
 
-/*48. Создайте индекс с названием fr_email_in на столбец email из таблицы 
-friends.*/
-create unique inder fr_em_in on friends (email);
+--48. РЎРѕР·РґР°Р№С‚Рµ РёРЅРґРµРєСЃ СЃ РЅР°Р·РІР°РЅРёРµРј fr_email_in РЅР° СЃС‚РѕР»Р±РµС† email РёР· С‚Р°Р±Р»РёС†С‹ friends.
+create unique index fr_em_in on friends (email);
 
-/*49. С помощью функционала «modify» команды «alter table» создайте
-constraint not null с названием fr_email_nn на столбец email из таблицы 
-friends.*/
+--49. РЎ РїРѕРјРѕС‰СЊСЋ С„СѓРЅРєС†РёРѕРЅР°Р»Р° В«modifyВ» РєРѕРјР°РЅРґС‹ В«alter tableВ» СЃРѕР·РґР°Р№С‚Рµconstraint not null СЃ РЅР°Р·РІР°РЅРёРµРј fr_email_nn РЅР° СЃС‚РѕР»Р±РµС† email РёР· С‚Р°Р±Р»РёС†С‹ friends.
 alter table friends
 modify  (email constraint fr_email_nn not null);
 
-/*50. Удалите таблицу friends.*/
+--50. РЈРґР°Р»РёС‚Рµ С‚Р°Р±Р»РёС†Сѓ friends.
 drop table friends;
 
-/*51. Удалите таблицу address.*/
+--51. РЈРґР°Р»РёС‚Рµ С‚Р°Р±Р»РёС†Сѓ address.
 drop table address;
 
-/*52. Создать таблицу emp1000 с помощью subquery так, чтобы она после 
-создания содержала значения следующих столбцов из таблицы 
-employees: first_name, last_name, salary, department_id.*/
+--52. РЎРѕР·РґР°С‚СЊ С‚Р°Р±Р»РёС†Сѓ emp1000 СЃ РїРѕРјРѕС‰СЊСЋ subquery С‚Р°Рє, С‡С‚РѕР±С‹ РѕРЅР° РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ СЃРѕРґРµСЂР¶Р°Р»Р° Р·РЅР°С‡РµРЅРёСЏ СЃР»РµРґСѓСЋС‰РёС… СЃС‚РѕР»Р±С†РѕРІ РёР· С‚Р°Р±Р»РёС†С‹ employees: first_name, last_name, salary, department_id. 
 create table emp1000 as 
 select first_name, last_name, salary, department_id from employees;
 
 
-/*53.  Создать view v1000 на основе select-а, который объединяет таблицы 
-emp1000 и departments по столбцу department_id. View должен
-содержать следующие столбцы: first_name, last_name, salary, 
-department_name, city .*/
+--53.  РЎРѕР·РґР°С‚СЊ view v1000 РЅР° РѕСЃРЅРѕРІРµ select-Р°, РєРѕС‚РѕСЂС‹Р№ РѕР±СЉРµРґРёРЅСЏРµС‚ С‚Р°Р±Р»РёС†С‹ emp1000 Рё departments РїРѕ СЃС‚РѕР»Р±С†Сѓ department_id. View РґРѕР»Р¶РµРЅСЃРѕРґРµСЂР¶Р°С‚СЊ СЃР»РµРґСѓСЋС‰РёРµ СЃС‚РѕР»Р±С†С‹: first_name, last_name, salary, department_name, city .
 create force view  v1000 as 
 select first_name, last_name, salary, department_name, e.city from emp1000 e
 join departments d on (e.department_id=d.department_id);
 
-/*54.  Добавьте в таблицу emp1000 столбец city .*/
+--54.  Р”РѕР±Р°РІСЊС‚Рµ РІ С‚Р°Р±Р»РёС†Сѓ emp1000 СЃС‚РѕР»Р±РµС† city .
 alter table emp1000
 add (city varchar(25));
 
-/*55. Откомпилируйте view v1000.*/
+--55. РћС‚РєРѕРјРїРёР»РёСЂСѓР№С‚Рµ view v1000
 alter view v1000 compile;
 
-/*56.  Создайте синоним syn1000 для v1000.*/
+--56.  РЎРѕР·РґР°Р№С‚Рµ СЃРёРЅРѕРЅРёРј syn1000 РґР»СЏ v1000
 create synonym syn1000 for v1000;
  
-/*57.  Удалите v1000.*/
+--57.  РЈРґР°Р»РёС‚Рµ v1000.
 drop view v1000;
 
-/*58.  Удалите syn1000.*/
+--58.  РЈРґР°Р»РёС‚Рµ syn1000.
 drop synonym syn1000;
 
-/*59.  Удалите emp1000.*/
+--59.  РЈРґР°Р»РёС‚Рµ emp1000.
 drop table emp1000;
 
-/*60.  Создайте последовательность seq1000, которая начинается с 12,
-увеличивается на 4, имеет максимальное значение 200 и цикличность.*/
+--60.  РЎРѕР·РґР°Р№С‚Рµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ seq1000, РєРѕС‚РѕСЂР°СЏ РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 12, СѓРІРµР»РёС‡РёРІР°РµС‚СЃСЏ РЅР° 4, РёРјРµРµС‚ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ 200 Рё С†РёРєР»РёС‡РЅРѕСЃС‚СЊ. 
 create sequence seq1000
 increment by 4 
 start with 12 
 maxvalue 200
 cycle;
 
-/*61. Измените эту последовательность. Удалите максимальное значение и 
-цикличность.*/
+--61. РР·РјРµРЅРёС‚Рµ СЌС‚Сѓ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ. РЈРґР°Р»РёС‚Рµ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё С†РёРєР»РёС‡РЅРѕСЃС‚СЊ.
 alter sequence seq1000
 nomaxvalue
 nocycle;
 
-/*62. Добавьте 2 строки в таблицу employees, используя минимально 
-возможное количество столбцов. Воспользуйтесь 
-последовательностью seq1000 при добавлении значений в столбец 
-employee_id.*/
+--62. .Р”РѕР±Р°РІСЊС‚Рµ 2 СЃС‚СЂРѕРєРё РІ С‚Р°Р±Р»РёС†Сѓ employees, РёСЃРїРѕР»СЊР·СѓСЏ РјРёРЅРёРјР°Р»СЊРЅРѕ РІРѕР·РјРѕР¶РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ. Р’РѕСЃРїРѕР»СЊР·СѓР№С‚РµСЃСЊ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊСЋ seq1000 РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё Р·РЅР°С‡РµРЅРёР№ РІ СЃС‚РѕР»Р±РµС† employee_id.
 insert into employees (employee_id, last_name, email, hire_date, job_id)
 values (seq1000.nextval, 'norris', 'ASBCDE', sysdate, 'IT_PROG');
 
 insert into employees (employee_id, last_name, email, hire_date, job_id)
 values (seq1000.nextval, 'TESTTEST', 'ASBCDEFGG', sysdate, 'IT_PROG');
 
-/*63. Совершите commit.*/
+--63 РЎРѕРІРµСЂС€РёС‚Рµ commit
 commit;
 
 
