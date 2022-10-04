@@ -440,10 +440,10 @@ order by count DESC, domain asc;
 
 --63.Выведите отсортированный список (по возрастанию) имен студентов в виде Фамилия.И.О.
 select concat (last_name, '.',
-SUBSTRING(first_name, 1,1), '.', 
-SUBSTRING(middle_name, 1,1)) as name
+SUBSTRING(first_name, 1, 1), '.', 
+SUBSTRING(middle_name, 1, 1), '.') as name
 from Student
-order by name;
+order by last_name, first_name;
 
 --64.Вывести количество бронирований по каждому месяцу каждого года, в которых было хотя бы 1 бронирование. Результат отсортируйте в порядке возрастания даты бронирования.
 select YEAR(start_date) as year, MONTH(start_date) as month,
@@ -454,6 +454,11 @@ having count (*)>=1
 ORDER by 1, 2;
 
 --65.Необходимо вывести рейтинг для комнат, которые хоть раз арендовали, как среднее значение рейтинга отзывов округленное до целого вниз.
+SELECT room_id, FLOOR(AVG(rating)) as rating
+from Reviews re
+join Reservations r
+on (re.reservation_id=r.id)
+GROUP by room_id 
 
 --66.Вывести список комнат со всеми удобствами (наличие ТВ, интернета, кухни и кондиционера), а также общее количество дней и сумму за все дни аренды каждой из таких комнат.
 
