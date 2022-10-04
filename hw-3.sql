@@ -297,9 +297,3 @@ values (seq1000.nextval, 'TESTTEST', 'ASBCDEFGG', sysdate, 'IT_PROG');
 
 --63 Совершите commit
 commit;
-
-
-
-
-
-
