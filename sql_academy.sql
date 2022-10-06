@@ -474,8 +474,25 @@ and has_air_con = 1
 GROUP by r.id;
 
 --67.Вывести время отлета и время прилета для каждого перелета в формате "ЧЧ:ММ, ДД.ММ - ЧЧ:ММ, ДД.ММ", где часы и минуты с ведущим нулем, а день и месяц без.
+SELECT concat(DATE_FORMAT(time_out, '%H:%i, %e.%c' ), '-', 
+DATE_FORMAT(time_in, '%H:%i, %e.%c')) as flight_time
+from Trip;
 
 --68.Для каждой комнаты, которую снимали как минимум 1 раз, найдите имя человека, снимавшего ее последний раз, и дату, когда он выехал
+with get_data as (
+select room_id,
+max(end_date) as end_date
+from Reservations
+group by room_id
+having count(*) >= 1
+)
+select rs.room_id,
+u.name,
+rs.end_date
+from Reservations as rs
+join get_data as gd on gd.room_id = rs.room_id
+and gd.end_date = rs.end_date
+join users as u on u.id = rs.user_id
 
 --69.Вывести идентификаторы всех владельцев комнат, что размещены на сервисе бронирования жилья и сумму, которую они заработали
 SELECT owner_id, ifnull (sum(re.total), 0) as total_earn
@@ -495,3 +512,18 @@ from Rooms
 group by category;
 
 --71.Найдите какой процент пользователей, зарегистрированных на сервисе бронирования, хоть раз арендовали или сдавали в аренду жилье. Результат округлите до сотых.
+WITH  t1 AS (
+SELECT DISTINCT user_id
+FROM Reservations
+UNION
+SELECT DISTINCT owner_id
+FROM Rooms r
+JOIN Reservations re
+ON (r.id = re.room_id) 
+)
+
+SELECT ROUND(
+    (
+        (SELECT COUNT(*) FROM active) / COUNT(*) * 100), 2
+    ) AS percent
+FROM Users;
