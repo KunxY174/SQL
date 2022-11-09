@@ -4,7 +4,7 @@
 | Название БД       | Описание                          |Тема|
 | :-------------:|:------------------------:|:-----:|
 | [Air Travels](https://github.com/KunxY174/SQL/tree/main/Air-Travels)|Содержит информацию о пассажирах, путешествиях и компаниях |Selection, single row функции, GROUP BY, JOIN, DML, DDL команды|
-| [Airbnb](https://github.com/KunxY174/SQL/tree/main/Airbnb)|Содержит информацию об онлайн-площадки для размещения и поиска аренды жилья |Selection, single row функции, GROUP BY, JOIN, DML, DDL команды|
+| [Airbnb](https://github.com/KunxY174/SQL/tree/main/Airbnb)|Содержит информацию об онлайн-площадке для размещения и поиска аренды жилья |Selection, single row функции, GROUP BY, JOIN, DML, DDL команды|
 | [Computer Company](https://github.com/KunxY174/SQL/tree/main/Computer-Company)|Содержит информацию о производителях ПК, ноутбуков, принтеров |Selection, single row функции, GROUP BY, JOIN|
 | [Family](https://github.com/KunxY174/SQL/tree/main/Family)|Содержит информацию о покупках семьи |Selection, single row функции, GROUP BY, JOIN, DML, DDL команды|
 | [Human Resources](https://github.com/KunxY174/SQL/tree/main/Human-Resources)|Содержит информацию о сотрудниках, департаментах, регионах, истории работ.|Selection, single row функции, GROUP BY, JOIN, DML, DDL команды|
