@@ -97,13 +97,13 @@ group by name
 having count(Trip) >= 1
 ORDER BY COUNT(trip) DESC, name
 
---28.Сколько рейсов совершили авиакомпании с Ростова (Rostov) в Москву (Moscow) ?
+--17.Сколько рейсов совершили авиакомпании с Ростова (Rostov) в Москву (Moscow) ?
 SELECT count(id) as count
 from trip
 WHERE town_from = 'Rostov'
   and town_to = 'Moscow';
 
---29.Выведите имена пассажиров улетевших в Москву (Moscow) на самолете TU-134
+--18.Выведите имена пассажиров улетевших в Москву (Moscow) на самолете TU-134
 SELECT distinct name
 from passenger p
   join Pass_in_trip pt on (p.id = pt.passenger)
@@ -113,14 +113,21 @@ where trip in (
     where plane = 'TU-134'
       and town_to = 'Moscow');
 
---30.Выведите нагруженность (число пассажиров) каждого рейса (trip). Результат вывести в отсортированном виде по убыванию нагруженности.
+--19.Выведите нагруженность (число пассажиров) каждого рейса (trip). Результат вывести в отсортированном виде по убыванию нагруженности.
 select trip, count (name) as count
 from passenger p
   join Pass_in_trip pt on (p.id = pt.passenger)
 GROUP by trip
 ORDER by 2 desc;
 
---67.Вывести время отлета и время прилета для каждого перелета в формате "ЧЧ:ММ, ДД.ММ - ЧЧ:ММ, ДД.ММ", где часы и минуты с ведущим нулем, а день и месяц без.
+--20.Вывести время отлета и время прилета для каждого перелета в формате "ЧЧ:ММ, ДД.ММ - ЧЧ:ММ, ДД.ММ", где часы и минуты с ведущим нулем, а день и месяц без.
 SELECT concat(DATE_FORMAT(time_out, '%H:%i, %e.%c' ), '-', 
 DATE_FORMAT(time_in, '%H:%i, %e.%c')) as flight_time
 from Trip;
+
+--21. Выбрать три наименьших и три наибольших номера рейса. Вывести их в шести столбцах одной строки, расположив в порядке от наименьшего к наибольшему.
+--Замечание: считать, что таблица Trip содержит не менее шести строк.
+select min (t.trip_no), min (tt. trip_no), min (ttt.trip_no), max (t.trip_no), max (tt.trip_no), max (ttt.trip_no)
+from Trip t, trip tt, trip ttt
+where t.trip_no<tt. trip_no
+and tt. trip_no<ttt.trip_no;
