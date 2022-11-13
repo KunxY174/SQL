@@ -121,7 +121,7 @@ GROUP by trip
 ORDER by 2 desc;
 
 --20.Вывести время отлета и время прилета для каждого перелета в формате "ЧЧ:ММ, ДД.ММ - ЧЧ:ММ, ДД.ММ", где часы и минуты с ведущим нулем, а день и месяц без.
-SELECT concat(DATE_FORMAT(time_out, '%H:%i, %e.%c' ), '-', 
+SELECT concat(DATE_FORMAT(time_out, '%H:%i, %e.%c' ), ' - ', 
 DATE_FORMAT(time_in, '%H:%i, %e.%c')) as flight_time
 from Trip;
 
